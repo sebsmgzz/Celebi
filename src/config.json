@@ -1,0 +1,31 @@
+{
+	"meta": {
+		"version": "1.0.0",
+		"debug": true
+	},
+	"install" : {
+		"taskName": "CelebiRestoreTask",
+		"taskDescription": "Restore database",
+		"triggerTime": "1:00 AM"
+	},
+	"restore": {
+		"main" : {
+			"dateFormat": "yyyy-MM-dd",
+			"targetDirectory": "C:\\users\\john_doe\\production_env\\backups\\<TODAY>\\",
+			"sourceDirectory": "F:\\sqlserver\\backups\\<YESTERDAY>\\",
+			"fileName": "My_Database_Backup_For_<YESTERDAY>.bak",
+			"overwrite": false,
+			"sqlServer": "localhost",
+			"databaseName": "My_Database"
+		},
+		"test": {
+			"dateFormat": "yyyy-MM-dd",
+			"targetDirectory": "C:\\users\\john_doe\\dev_env\\target\\",
+			"sourceDirectory": "C:\\users\\john_doe\\dev_env\\source\\",
+			"fileName": "Disposable_<YESTERDAY>.bak",
+			"overwrite": true,
+			"sqlServer": "localhost",
+			"databaseName": "Disposable"
+		}
+	}
+}
