@@ -30,12 +30,17 @@ class InstallConfig {
     [String]$taskName = 'CelebiRestoreTask'
     [String]$taskDescription = 'Restore database'
     [DateTime]$triggerTime
+    [System.Collections.ArrayList]$triggerDays
 
     InstallConfig() {
         $config = GetConfig('install')
         $this.taskName = $config.taskName
         $this.taskDescription = $config.taskDescription
         $this.triggerTime  = [DateTime] $config.triggerTime
+        $this.triggerDays = [System.Collections.ArrayList]::new()
+        foreach($day in $config.triggerDays) {
+            $this.thiggerDays.Add($day)
+        }
     }
         
     [Boolean] IsValid() {

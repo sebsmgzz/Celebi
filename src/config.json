@@ -6,7 +6,14 @@
 	"install" : {
 		"taskName": "CelebiRestoreTask",
 		"taskDescription": "Restore database",
-		"triggerTime": "1:00 AM"
+		"triggerTime": "1:00 AM",
+		"triggerDays": [
+			"monday",
+			"tuesday",
+			"wednesday",
+			"thursday",
+			"friday"
+		]
 	},
 	"restore": {
 		"main" : {
