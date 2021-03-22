@@ -12,7 +12,7 @@ if(!$config.IsValid()) {
     return
 }
 
-# Move file
+# Lookup source file
 $sourcePath = $config.sourceDirectory + $config.fileName
 $targetPath = $config.targetDirectory + $config.fileName
 NeoInform ('> Coping file: ' + "`n`tFrom: " + $sourcePath + "`n`t  To: " + $targetPath)
@@ -20,19 +20,26 @@ if(!(Test-Path $sourcePath)) {
     NeoError 'File not found, aborting'
     return
 }
+
+# Test config if overwrite
 if(Test-Path ($targetPath)) {
-    NeoInform '>> Overwritting file'
-    if(!$config.overwrite) {
-        NeoError 'File exists, either delete it or make override ''True'' in environment.'
-        NeoError 'Aborting'
-        return
+    NeoWarning '>> Target path already exists'
+    if($config.overwrite) {
+        NeoInform '>> Overwritting file'
+        Remove-Item $targetPath
+    } else {
+        NeoInform '>> Using existing file'
     }
 }
-Start-BitsTransfer `
-    -Source $sourcePath `
-    -Destination $targetPath `
-    -Description 'Coping backup' `
-    -DisplayName $sourcePath
+
+# Actual copy
+if(!(Test-Path ($targetPath))) {
+    Start-BitsTransfer `
+        -Source $sourcePath `
+        -Destination $targetPath `
+        -Description 'Coping backup' `
+        -DisplayName $sourcePath
+}
 NeoSuccess ">> Success"
 
 # Restore
