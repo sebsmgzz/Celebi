@@ -15,7 +15,7 @@ if(!$config.IsValid()) {
 # Move file
 $sourcePath = $config.sourceDirectory + $config.fileName
 $targetPath = $config.targetDirectory + $config.fileName
-NeoInform ('> Coping ' + $sourcePath + ' to ' + $targetPath)
+NeoInform ('> Coping file: ' + "`n`tFrom: " + $sourcePath + "`n`t  To: " + $targetPath)
 if(!(Test-Path $sourcePath)) {
     NeoError 'File not found, aborting'
     return
@@ -28,7 +28,11 @@ if(Test-Path ($targetPath)) {
         return
     }
 }
-Start-BitsTransfer `    -Source $sourcePath `    -Destination $targetPath `    -Description 'Coping backup' `    -DisplayName $sourcePath
+Start-BitsTransfer `
+    -Source $sourcePath `
+    -Destination $targetPath `
+    -Description 'Coping backup' `
+    -DisplayName $sourcePath
 NeoSuccess ">> Success"
 
 # Restore
@@ -39,7 +43,10 @@ NeoInform '> Restoring'
             ALTER DATABASE ' + $config.databaseName + `
             ' SET OFFLINE WITH ROLLBACK IMMEDIATE;'
         Invoke-Sqlcmd -ServerInstance $config.sqlServer -Query $query
-        Restore-SqlDatabase `            -ServerInstance $config.sqlServer `            -Database $config.databaseName `            -BackupFile $targetPath `
+        Restore-SqlDatabase `
+            -ServerInstance $config.sqlServer `
+            -Database $config.databaseName `
+            -BackupFile $targetPath `
             -ReplaceDatabase
         } catch [System.SystemException] {
             NeoError 'Error restoring database'
@@ -49,4 +56,4 @@ NeoInform '> Restoring'
 NeoSuccess '>> Success'
 
 # Display message
-NeoRead “Press ENTER to finish...”
+NeoRead ï¿½Press ENTER to finish...ï¿½
