@@ -15,7 +15,7 @@ function GetConfig {
 class MetaConfig {
 
     [String]$version
-    [switch]$debug = $true
+    [Boolean]$debug = $true
 
     MetaConfig() {
         $config = GetConfig('meta')
@@ -38,7 +38,7 @@ class InstallConfig {
         $this.triggerTime  = [DateTime] $config.triggerTime
     }
         
-    [switch] IsValid() {
+    [Boolean] IsValid() {
         return !($this.triggerTime.Equals($null))
     }
 
@@ -47,6 +47,7 @@ class InstallConfig {
 class RestoreConfig {
 
     [String]$dateFormat = 'yyyy-MM-dd'
+    [Boolean]$noWeekends = $false
     [String]$targetDirectory
     [String]$sourceDirectory
     [String]$fileName
@@ -54,22 +55,23 @@ class RestoreConfig {
     [String]$sqlServer = 'localhost'
     [String]$databaseName = 'db'
 
-    RestoreConfig([switch]$asTest) {
+    RestoreConfig([Boolean]$asTest) {
         $json = GetConfig('restore')
         $config = $json.main
         if($asTest) {
             $config = $json.test
         }
         $this.dateFormat = $config.dateFormat
-        $this.targetDirectory = ReplaceDates $config.targetDirectory $this.dateFormat
-        $this.sourceDirectory = ReplaceDates $config.sourceDirectory $this.dateFormat
-        $this.fileName = ReplaceDates $config.fileName $this.dateFormat
+        $this.noWeekends = $config.noWeekends
+        $this.targetDirectory = ReplaceDates $config.targetDirectory $this.dateFormat $this.noWeekends
+        $this.sourceDirectory = ReplaceDates $config.sourceDirectory $this.dateFormat $this.noWeekends
+        $this.fileName = ReplaceDates $config.fileName $this.dateFormat $this.noWeekends
         $this.overwrite = StrToBool $config.overwrite
         $this.sqlServer = $config.sqlServer
         $this.databaseName = $config.databaseName
     }
 
-    [switch] IsValid() {
+    [Boolean] IsValid() {
         return $this.targetDirectory -and $this.sourceDirectory -and $this.fileName
     }
 

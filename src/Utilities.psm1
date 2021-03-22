@@ -1,4 +1,13 @@
 ﻿
+function FloorWeekend {
+    [CmdletBinding()]
+    param(Parameter(Mandatory=$true)[DateTime] $date)
+    while($date.DayOfWeek -match "Sunday|Saturday") {
+        $date = $date.AddDays(-1)
+    }
+    return $date
+}
+
 function ReplaceDates {
     [CmdletBinding()]
     param(

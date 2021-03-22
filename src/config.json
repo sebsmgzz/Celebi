@@ -11,6 +11,7 @@
 	"restore": {
 		"main" : {
 			"dateFormat": "yyyy-MM-dd",
+			"noWeekends": true,
 			"targetDirectory": "C:\\users\\john_doe\\production_env\\backups\\<TODAY>\\",
 			"sourceDirectory": "F:\\sqlserver\\backups\\<YESTERDAY>\\",
 			"fileName": "My_Database_Backup_For_<YESTERDAY>.bak",
@@ -20,6 +21,7 @@
 		},
 		"test": {
 			"dateFormat": "yyyy-MM-dd",
+			"noWeekends": true,
 			"targetDirectory": "C:\\users\\john_doe\\dev_env\\target\\",
 			"sourceDirectory": "C:\\users\\john_doe\\dev_env\\source\\",
 			"fileName": "Disposable_<YESTERDAY>.bak",
