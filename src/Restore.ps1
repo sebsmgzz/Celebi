@@ -17,7 +17,7 @@ $sourcePath = $config.sourceDirectory + $config.fileName
 $targetPath = $config.targetDirectory + $config.fileName
 NeoInform ('> Coping ' + $sourcePath + ' to ' + $targetPath)
 if(!(Test-Path $sourcePath)) {
-    Neo-Error 'File not found, aborting'
+    NeoError 'File not found, aborting'
     return
 }
 if(Test-Path ($targetPath)) {
